@@ -1,0 +1,1 @@
+web: gunicorn DashbordDevise.wsgi --log-file -

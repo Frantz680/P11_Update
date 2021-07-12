@@ -1,0 +1,54 @@
+{% extends 'template_base.html' %}
+
+{% block title %}PurBeurre{% endblock %}
+
+{% block contenu %}
+<header class="masthead text-center text-white d-flex" style="background: 50% 81% no-repeat url('{{image}}') ">
+  <div class="container my-auto">
+    <div class="row-search">
+      <div class="col-lg-10 mx-auto">
+        <h1 class="text-uppercase">
+          <strong id="title_search">{{ title }}</strong>
+          <br>
+          <strong id="title_nutri_search">Le nutri-score de ce produit est {{ nutri }}</strong>
+          <hr class="divider my-4" />
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--Substitut-->
+<section class="page-section" id="substitut">
+  <div class="container">
+    <div class="col-md-18 text-center">
+      <h2 class="section-heading" id="title_substitut">Vous pouvez remplacer cet aliment par :</h2>
+      <hr class="divider my-4" />
+  
+      {% for name_product in alt_products %}
+      <div class="card product-card">
+        <div class="product-card-badge">
+          <span class="product-nutrigrade badge badge--{{ name_product.nutrition_grade }}">{{ name_product.nutrition_grade }}</span>
+        </div>
+        <div class="product-card-img" style="background-image: url('{{name_product.picture_product}}')"><br></div>
+        <div class="card-body">
+          <h4 class="card-title product-card-title">{{ name_product.name_product }}</h4>
+
+          {% if user.is_authenticated %}
+          <div class="save-result" id="{{name_product.id}}">
+            <form method="post" action="{% url 'my_product' product_id=name_product.id %}">
+                {% csrf_token %}
+                <input class="btn btn-primary btn-xl mt-50" type="submit" value="Sauvegarder" id="{{name_product.id}}">
+            </form>
+          </div>
+          {% endif %}
+          <a href="{% url 'detail' substitut_detail=name_product.id %}">En savoir plus.</a>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
