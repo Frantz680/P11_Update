@@ -1,0 +1,7 @@
+.vscode
+__pycache__
+.idea
+.flake8
+.pytest_cache
+staticfiles
+selenium
